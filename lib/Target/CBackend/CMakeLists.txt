@@ -1,4 +1,4 @@
-add_llvm_target(CBackendCodeGen
+add_llvm_library(LLVMCBackendCodeGen
   CBackend.cpp
   )
 
