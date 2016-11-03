@@ -64,7 +64,7 @@ static bool isEmptyType(Type *Ty) {
         return VTy->getNumElements() == 0 ||
             isEmptyType(VTy->getElementType());
     if (ArrayType *ATy = dyn_cast<ArrayType>(Ty))
-        return ATy->getNumElements() == 0 ||
+        return //ATy->getNumElements() == 0 ||
             isEmptyType(ATy->getElementType());
     return Ty->isVoidTy();
 }
@@ -534,7 +534,12 @@ raw_ostream &CWriter::printArrayDeclaration(raw_ostream &Out, ArrayType *ATy) {
   // value semantics (avoiding the array "decay").
   Out << getArrayName(ATy) << " {\n  ";
   printTypeName(Out, ATy->getElementType());
-  Out << " array[" << utostr(ATy->getNumElements()) << "];\n};\n";
+  if (ATy->getNumElements() != 0) {
+    Out << " array[" << utostr(ATy->getNumElements()) << "];\n};\n";
+  }
+  else {
+    Out << " array[1]; /*pad*/\n};\n";
+  }
   return Out;
 }
 
