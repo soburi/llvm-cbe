@@ -1592,6 +1592,7 @@ static void generateCompilerSpecificCode(raw_ostream& Out,
       << "#endif\n\n";
 
   // Output typedefs for 128-bit integers
+  Out << "#if 0\n";
   Out << "#if defined(__GNUC__) && defined(__LP64__) /* 128-bit integer types */\n"
       << "typedef int __attribute__((mode(TI))) int128_t;\n"
       << "typedef unsigned __attribute__((mode(TI))) uint128_t;\n"
@@ -1648,6 +1649,7 @@ static void generateCompilerSpecificCode(raw_ostream& Out,
       << " return (int64_t)l.hi > (int64_t)r.hi ? 1 : (l.hi == r.hi ? (int64_t)l.lo > (int64_t)l.lo : 0); }\n"
       << "#define __emulate_i128\n"
       << "#endif\n\n";
+  Out << "#endif\n";
 
   // We output GCC specific attributes to preserve 'linkonce'ness on globals.
   // If we aren't being compiled with GCC, just drop these attributes.
