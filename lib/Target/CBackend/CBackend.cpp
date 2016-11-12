@@ -2832,6 +2832,8 @@ void CWriter::printContainedTypes(raw_ostream &Out, Type *Ty,
   // Skip empty structs
   if (isEmptyType(Ty)) return;
 
+  if (Ty->isPointerTy()) return;
+
   // Print all contained types first.
   for (Type::subtype_iterator I = Ty->subtype_begin(),
        E = Ty->subtype_end(); I != E; ++I)
