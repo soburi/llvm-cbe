@@ -1858,6 +1858,19 @@ void CWriter::generateHeader(Module &M) {
       continue;
     printTypeName(NullOut, I->getType()->getElementType(), false);
   }
+
+  // collect the type of the function pointer written directly in the argument
+  for (Module::iterator I = M.begin(), E = M.end(); I != E; ++I) {
+    if (Function *F = dyn_cast<Function>(&*I)) {
+
+      for(Function::arg_iterator AI = F->arg_begin(), AE = F->arg_end(); AI != AE; ++AI) {
+        if (AI->getType()->isPointerTy() && AI->getType()->getPointerElementType()->isFunctionTy()) {
+          printTypeName(NullOut, AI->getType()->getPointerElementType(), false);
+        }
+      }
+    }
+  }
+
   printModuleTypes(Out);
 
   // Global variable declarations...
